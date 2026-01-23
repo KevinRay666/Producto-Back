@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.productos.producto.entity.Producto;
@@ -32,6 +33,15 @@ public class ProductoService {
 
        public Optional<Producto> findById(Long id){
             return productoRepository.findById(id);
+    }
+
+        public Producto saveProducto(Producto producto){
+
+        if(productoRepository.existsBySku(producto.getSku())){
+            throw new DataIntegrityViolationException("SKU duplicado");
+        }
+        return productoRepository.save(producto);
+
     }
     
 }

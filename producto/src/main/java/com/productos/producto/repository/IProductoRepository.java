@@ -7,7 +7,7 @@ import com.productos.producto.entity.Producto;
 
 @Repository
 public interface IProductoRepository extends JpaRepository <Producto, Long>{
-    
 
+    boolean existsBySku(String sku);
 
 }

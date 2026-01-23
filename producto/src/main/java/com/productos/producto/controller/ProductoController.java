@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,6 +50,20 @@ public class ProductoController {
         ApiResponse response = new ApiResponse(producto);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/products")
+    public ResponseEntity<ApiResponse> saveProducto(@RequestBody Producto producto) {
+        try {
+
+            Producto newProducto = productoService.saveProducto(producto);
+            ApiResponse response = new ApiResponse(newProducto);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            BadResponse badResponse = new BadResponse("Error", e.getMessage());
+            ApiResponse response = new ApiResponse(badResponse);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
