@@ -43,5 +43,9 @@ public class ProductoService {
         return productoRepository.save(producto);
 
     }
+
+        public Producto actualizar(Producto producto){
+        return productoRepository.save(producto);
+    }
     
 }

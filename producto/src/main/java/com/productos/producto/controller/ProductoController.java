@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,6 +65,32 @@ public class ProductoController {
             ApiResponse response = new ApiResponse(badResponse);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PutMapping("/products/{id}")
+    public ResponseEntity<ApiResponse> updateProducto(@RequestBody Producto productoRequest, @PathVariable Long id) {
+
+        Optional<Producto> productoOptional = productoService.findById(id);
+        if (productoOptional.isEmpty()) {
+
+            BadResponse badResponse = new BadResponse("ID_INVALIDO", "Ingrese un Id valido");
+            ApiResponse response = new ApiResponse(badResponse);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
+        }
+
+        Producto producto = productoOptional.get();
+        producto.setId(id);
+        producto.setSku(productoRequest.getSku());
+        producto.setNombre(productoRequest.getNombre());
+        producto.setPrecio(productoRequest.getPrecio());
+        producto.setCantidad(productoRequest.getCantidad());
+
+        Producto productoActualizado = productoService.actualizar(producto);
+
+        ApiResponse response = new ApiResponse(productoActualizado);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
 }
