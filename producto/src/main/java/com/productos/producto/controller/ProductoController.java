@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -89,6 +90,23 @@ public class ProductoController {
         Producto productoActualizado = productoService.actualizar(producto);
 
         ApiResponse response = new ApiResponse(productoActualizado);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<ApiResponse> deleteProducto(@PathVariable Long id) {
+
+        Optional<Producto> productoOptional = productoService.findById(id);
+        if (productoOptional.isEmpty()) {
+
+            BadResponse badResponse = new BadResponse("ID_INVALIDO", "Ingrese un Id valido");
+            ApiResponse response = new ApiResponse(badResponse);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
+        }
+        productoService.deleteProducto(id);
+        ApiResponse response = new ApiResponse(!(productoService.findById(id) != null));
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }

@@ -11,15 +11,13 @@ import org.springframework.stereotype.Service;
 import com.productos.producto.entity.Producto;
 import com.productos.producto.repository.IProductoRepository;
 
-
 @Service
 public class ProductoService {
 
     @Autowired
     private IProductoRepository productoRepository;
 
-
-        public List<Producto>findAll(){
+    public List<Producto> findAll() {
         List<Producto> productos = productoRepository.findAll();
         List<Producto> productosEnexisteList = new ArrayList<>();
 
@@ -31,21 +29,27 @@ public class ProductoService {
         return productosEnexisteList;
     }
 
-       public Optional<Producto> findById(Long id){
-            return productoRepository.findById(id);
+    public Optional<Producto> findById(Long id) {
+        return productoRepository.findById(id);
     }
 
-        public Producto saveProducto(Producto producto){
+    public Producto saveProducto(Producto producto) {
 
-        if(productoRepository.existsBySku(producto.getSku())){
+        if (productoRepository.existsBySku(producto.getSku())) {
             throw new DataIntegrityViolationException("SKU duplicado");
         }
         return productoRepository.save(producto);
 
     }
 
-        public Producto actualizar(Producto producto){
+    public Producto actualizar(Producto producto) {
         return productoRepository.save(producto);
     }
-    
+
+    public void deleteProducto(Long id) {
+
+        productoRepository.deleteById(id);
+
+    }
+
 }
