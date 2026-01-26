@@ -1,4 +1,4 @@
-package com.login.login.entity;
+package com.productos.producto.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

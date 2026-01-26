@@ -26,7 +26,7 @@ public class ProductoService {
                 productosEnexisteList.add(producto);
             }
         }
-        return productosEnexisteList;
+        return productos;
     }
 
     public Optional<Producto> findById(Long id) {
