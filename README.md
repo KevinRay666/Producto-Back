@@ -2,8 +2,9 @@ En este repositorio se encuentran dos apis
   Login
   Productos
 
-La api Producto tiene los siguientes endpoints:
-  De tipo GetMapping esta:
+La api Producto tiene los siguientes endpoints
+
+  De tipo GetMapping esta
     /products
       En este se consultan todos los productos que se tienen registrados
     /products/{id}
